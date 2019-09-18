@@ -43,13 +43,14 @@ class Purchase(models.Model):
     
     status = models.CharField(max_length=2, choices=STATUS_CHOICE, default=OPEN)
     max_cost = models.BigIntegerField()
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Order', through_fields=('purchase', 'buyer'), related_name='members_purchase')
     
     def __str__(self):
         return f"ID: {self.id}, Item: {self.item}"
 
 class Order(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
-    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now=True)
 
     def __str__(self):

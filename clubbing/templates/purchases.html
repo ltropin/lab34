@@ -24,7 +24,7 @@
     </div>
     <div class="container list-group">
         {% for el in purchases %}
-            <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="list-group-item flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <a href="{{ fullurl }}/item/{{ el.item.id }}">
                         <h5 class="m-1">Закупка на товар - {{ el.item }}</h5>
@@ -59,6 +59,18 @@
                     </button>
                     {% endif %}
                 </form>
+                <p>
+                Участники:
+                {% if el.members.all|length > 0 %}
+                <ul class="list-group">
+                    {% for mem in el.members.all %}
+                        <li class="list-group-item">{{ mem }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    Нет участников
+                {% endif %}
+                </p>
                 {% comment %} <small class="text-muted">Donec id elit non mi porta.</small> {% endcomment %}
             </div>
         {% endfor %}

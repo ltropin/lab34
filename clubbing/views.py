@@ -58,6 +58,7 @@ def purchases(request):
     if request.user.is_authenticated and request.user.group == User.ORGANIZER:
         if request.method == 'GET':
             listPurchases = Purchase.objects.all().filter(user=request.user).order_by('-id')
+            print(listPurchases.values('members').all())
             return render(request, 'purchases.html', context={'purchases': listPurchases})
         else:
             purch = Purchase.objects.get(pk=request.POST['purch'])
