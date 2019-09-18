@@ -9,6 +9,7 @@ verify_ssl = true
 gunicorn = "*"
 whitenoise = "*"
 django-fullurl = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.7"
