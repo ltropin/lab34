@@ -15,6 +15,20 @@ class User(AbstractUser):
         swappable = 'AUTH_USER_MODEL'
 
 
+class Item(models.Model):
+    name = models.CharField(max_length=255)
+    price = models.IntegerField()
+    img = models.CharField(max_length=1000, default='')
+    decription = models.TextField(default='')
+
+    def get_all(self):
+        data = [(ix, el) for ix, el in Item.objects.all()]
+        return data
+
+
+    def __str__(self):
+        return self.name
+
 class Purchase(models.Model):
     OPEN = 'OP'
     CLOSED = 'CL'
@@ -25,19 +39,18 @@ class Purchase(models.Model):
         (SELL, 'Sell')
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    status = models.CharField(max_length=2, choices=STATUS_CHOICE, default=OPEN)
-    max_cost = models.IntegerField()
-
-
-class Item(models.Model):
-    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    price = models.IntegerField()
-    img = models.CharField(max_length=1000, default='')
-    decription = models.TextField(default='')
-
-
-class Orders(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    
+    status = models.CharField(max_length=2, choices=STATUS_CHOICE, default=OPEN)
+    max_cost = models.BigIntegerField()
+    
+    def __str__(self):
+        return f"ID: {self.id}, Item: {self.item}"
+
+class Order(models.Model):
+    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f"Purchase: {self.purchase}, Buyer: {self.buyer}"

@@ -8,9 +8,65 @@
     <div class='container d-flex align-content-center justify-content-center'>
             <form method="post">
                 {% csrf_token %}
-                <h1>Регистрация</h1>
-                {{ form.as_p }}
-                <button type="submit">Зарегистрироваться</button>
+                <div class='p-4 display-4 text-center'>Регистрация</div>
+                {% if error_m != None %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Ошибка!</strong> {{error_m}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                {% comment %}  {% endcomment %}
+                <div class='form-group'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ form.username.label }}</span>
+                        </div>
+                        {{ form.username }}
+                    </div>
+                    <small class='form-text text-muted'>{{ form.username.help_text }}</small>
+                </div>
+                {% comment %}  {% endcomment %}
+                <div class='form-group'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ form.email.label }}</span>
+                        </div>
+                        {{ form.email }}
+                    </div>
+                    <small class='form-text text-muted'>{{ form.email.help_text }}</small>
+                </div>
+                {% comment %}  {% endcomment %}
+                <div class='form-group'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ form.group.label }}</span>
+                        </div>
+                        {{ form.group }}
+                    </div>
+                    <small class='form-text text-muted'>{{ form.group.help_text }}</small>
+                </div>
+
+                <div class='form-group'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ form.password1.label }}</span>
+                        </div>
+                        {{ form.password1 }}
+                    </div>
+                    <small class='form-text text-muted'>{{ form.password1.help_text }}</small>
+                </div>
+                <div class='form-group'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ form.password2.label }}</span>
+                        </div>
+                        {{ form.password2 }}
+                    </div>
+                    
+                </div>
+                <button type="submit" class='btn btn-outline-danger w-100' >Зарегистрироваться</button>
             </form>
     </div>
 {% endblock %}

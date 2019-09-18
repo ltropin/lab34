@@ -1,0 +1,66 @@
+{% extends "layouts/layout.html" %}
+
+{% block title %}
+    Складчина - Управление покупками
+{% endblock %}
+
+{% block content %}
+
+    <div class='container d-flex justify-content-center flex-column'>
+        <div class='w-100 d-flex justify-content-center p-1 align-items-center'>
+            <h1 class='p-3 d-inline text-center'>Управление покупками</h1>
+            <a href='{{ fullurl }}/add-purchase' class="btn btn-primary ml-5 pl-4 pr-4">Добавить</a>
+        </div>
+
+        {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Информация!</strong> {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+    </div>
+    <div class="container list-group">
+        {% for el in purchases %}
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <a href="{{ fullurl }}/item/{{ el.item.id }}">
+                        <h5 class="m-1">Закупка на товар - {{ el.item }}</h5>
+                    </a>
+                
+                    <h5 class="text-muted">
+                    {% if el.status == el.OPEN %}
+                        <span class="badge badge-success">{{ el.get_status_display }}</span>
+                    {% elif el.status == el.CLOSED %}
+                        <span class="badge badge-danger">{{ el.get_status_display }}</span>
+                    {% else %}
+                        {% comment %} SELL {% endcomment %}
+                        <span class="badge badge-primary">{{ el.get_status_display }}</span>
+                    {% endif %}
+                    </h5>
+                </div>
+                <p class="m-1">Cтоимость товара: {{ el.item.price}} $</p>
+                <p class="m-1">Максимальная стоимость: {{ el.max_cost}} $</p>
+                
+               
+                <form method='POST' class='mt-3'>
+                    {% csrf_token %}
+                    <input type='hidden' value='{{el.id}}' name='purch'>
+                    {% if el.status == 'OP' or el.status == 'SL' %}
+                        <button type='submit' class='btn btn-danger' name='status' value='CL'>
+                            Закрыть покупку
+                        </button>
+                    {% endif %}
+                    {% if el.status == 'OP' %}
+                    <button type='submit' class='btn btn-primary' name='status' value='SL'>
+                        Начать продажу
+                    </button>
+                    {% endif %}
+                </form>
+                {% comment %} <small class="text-muted">Donec id elit non mi porta.</small> {% endcomment %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

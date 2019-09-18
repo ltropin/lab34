@@ -1,9 +1,29 @@
 {% extends "layouts/layout.html" %}
-
+{% load static %}
 {% block title %}
     Складчина
 {% endblock %}
 
 {% block content %}
-    GOOD
+    <div class="container">
+        <div class="row">
+            {% for item in items %}
+                {% if forloop.counter0|divisibleby:4 and forloop.counter0 != 0 %}
+                    <div class="w-100 d-none d-md-block"></div>
+                {% endif%}
+                <div class="col-3">
+                    <div class="card p-1 m-1">
+                        <img class="card-img-top" src="{% static 'img' %}/{{ item.img }}">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ item.name }}</h4>
+                            <p class="card-text">
+                                Цена: <b>{{ item.price }} $</b>
+                            </p>
+                            <a href="{{ fullurl }}/item/{{ item.id }}" class="btn btn-primary w-100">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

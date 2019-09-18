@@ -1,0 +1,17 @@
+{% extends "layouts/layout.html" %}
+{% load static %}
+
+{% block title %}
+    Складчина - {{ detail.name }}
+{% endblock %}
+
+{% block content %}
+    <div class='container d-flex justify-content-center flex-column jumbotron mt-3'>
+        <div class='display-4 text-center'>{{ detail.name }}</div>
+        <img src="{% static 'img' %}/{{detail.img}}" class="rounded mx-auto d-block">
+        <div class='lead text-center'>Цена: <b>{{ detail.price }} $</b></div>
+        <div class='lead text-center'>Описание</div>
+        <div class='text-center'>{{detail.decription }}</div>
+    </div>
+
+{% endblock %}

@@ -8,9 +8,15 @@
     <div class='container d-flex align-content-center justify-content-center'>
         <form method='POST' action='{{fullurl}}/login/'>
             {% csrf_token %}
-            <h1 class="p-4">Авторизация</h1>
-            <div class='form-group'>
-            </div>
+            <div class='p-4 display-4 text-center'>Авторизация</div>
+            {% if error_m != None %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ошибка!</strong> {{error_m}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
             <div class="input-group mb-2 mr-sm-2">
                 <div class="input-group-prepend">
                     <label for="login" class="input-group-text">Логин</label>

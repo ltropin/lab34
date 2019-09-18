@@ -1,0 +1,62 @@
+{% extends "layouts/layout.html" %}
+{% load static %}
+
+{% block title %}
+    Складчина - Складчины
+{% endblock %}
+
+{% block content %}
+
+    <div class="container list-group mt-3 mb-3">
+
+        {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Информация!</strong> {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+        {% for el in purchases %}
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-lg-9 d-flex justify-content-center flex-column">
+                            <h4 class="m-1">Складчина на товар - {{ el.item }}. Автор: {{ el.user}}</h4>
+                            <p class="m-1">
+                                Статус: 
+                                {% if el.status == el.OPEN %}
+                                    <span class="badge badge-success">{{ el.get_status_display }}</span>
+                                {% elif el.status == el.CLOSED %}
+                                    <span class="badge badge-danger">{{ el.get_status_display }}</span>
+                                {% else %}
+                                    <span class="badge badge-primary">{{ el.get_status_display }}</span>
+                                {% endif %}
+                            </p>
+                            <p class="m-1">Cтоимость товара: {{ el.item.price}} $</p>
+                            <p class="m-1">Максимальная стоимость: {{ el.max_cost}} $</p>
+                            <div class='mt-2'>
+                            {% if el.id in orders %}
+                                <p class='lead'>Вы уже заказывали этот товар</p>
+                            {% else %}
+                            <form method='POST'>
+                                {% csrf_token %}
+                                <input type='hidden' value='{{el.id}}' name='purchase' id='id_purchase'>
+                                <input type='hidden' value='{{user.id}}' name='buyer' id='id_buyer'>
+                                <button type='submit' class='btn btn-outline-success'>Заказать</button>
+                            </form>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <div class="col col-lg-3">
+                            <img src="{% static 'img' %}/{{el.item.img}}" class="img-thumbnail" width='200px'>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
