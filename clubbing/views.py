@@ -58,7 +58,6 @@ def purchases(request):
     if request.user.is_authenticated and request.user.group == User.ORGANIZER:
         if request.method == 'GET':
             listPurchases = Purchase.objects.all().filter(user=request.user).order_by('-id')
-            print(listPurchases.values('members').all())
             return render(request, 'purchases.html', context={'purchases': listPurchases})
         else:
             purch = Purchase.objects.get(pk=request.POST['purch'])
@@ -107,6 +106,13 @@ def clubbings(request):
             form_order = FormOrder(request.POST)
             if form_order.is_valid():
                 form_order.save()
+                all_purchases = Purchase.objects.all()
+                # Назначаем старт продажи
+                for purch in all_purchases:
+                    count_members = len(purch.members.all())
+                    if count_members * purch.item.price >= purch.max_cost:
+                        purch.status = Purchase.SELL
+                        purch.save()
                 messages.info(request, 'Вы встали в очередь на заказ!')
                 return redirect('clubbings')
 # def detail_club(request, pk):
