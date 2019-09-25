@@ -9,10 +9,14 @@ class User(AbstractUser):
         (BUYER, 'Buyer'),
         (ORGANIZER, 'Organizer')
     ]
+    avatar = models.ImageField(default='avatars/none.png', upload_to='avatars', unique=True)
     group = models.CharField(max_length=2, choices=GROUP_CHOICE, default=BUYER)
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
+    
+    def get_orders(self):
+        return Order.objects.filter(buyer=self)
 
 
 class Item(models.Model):

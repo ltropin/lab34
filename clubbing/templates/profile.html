@@ -1,0 +1,19 @@
+{% extends "layouts/layout.html" %}
+
+{% block title %}
+    Складчина - Профиль
+{% endblock %}
+
+{% block content %}
+    <div class='container d-flex align-items-center justify-content-center flex-column'>
+        <div class='display-4 p-3'>{{ user.username }}</div>
+        <img class="img-thumbnail" src="{{ user.avatar.url }}" alt="Thumbnail image" width='200px'>
+        <div class='mt-2'>
+        Заказы:
+        {% for order in user.get_orders %}
+            <li class='p-2'>{{ order.purchase.item }}. Автор: {{ order.purchase.user }}</li>
+        {% endfor %}
+        </div>
+        {% comment %} <small class='p-2'>{{ user. }}</small> {% endcomment %}
+    </div>
+{% endblock %}

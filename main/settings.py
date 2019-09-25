@@ -26,6 +26,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+MEDIA_URL = '/clubbing/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'clubbing/static')
 
 # Application definition
 

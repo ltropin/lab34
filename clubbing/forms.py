@@ -29,10 +29,12 @@ class SignUpForm(UserCreationForm):
                                help_text='Длина пароля должна быть не меньше 6 и не больше 35',
                                widget=forms.PasswordInput(attrs={'class': 'form-control'}),
                                label='Повторите пароль:')
-    
+
+    avatar = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
+                              label='Выберите аватар')
     class Meta:
         model = User
-        fields = ('username', 'email', 'group', 'password1', 'password2', )
+        fields = ['username', 'email', 'group', 'password1', 'password2', 'avatar']
 
 
 class AddPurchase(forms.ModelForm):

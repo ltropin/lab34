@@ -40,7 +40,8 @@ def register_page(request):
     if request.method == 'GET':
         return render(request, 'register.html', context={'form': SignUpForm()})
     elif request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
+        # print(form.errors)
         if form.is_valid():
             form.save()
         else:
@@ -115,6 +116,6 @@ def clubbings(request):
                         purch.save()
                 messages.info(request, 'Вы встали в очередь на заказ!')
                 return redirect('clubbings')
-# def detail_club(request, pk):
-#     club = 
-#     return render(request, 'clubbings.html', context={'orders': orders, 'purchases': all_purch})
+
+def profile(request):
+    return render(request, 'profile.html')
